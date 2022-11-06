@@ -3,7 +3,7 @@ import { create } from "apisauce";
 
 // define the api
 const api = create({
-  baseURL: process.env.REACT_APP_API_URL+"/api/",
+  baseURL: "http://172.1.1.107:8000/api/",
 });
 
 export default api;
