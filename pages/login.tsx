@@ -8,33 +8,34 @@ import {
 import useForm from "../hooks/useForm";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useUser } from "../store/userStore";
 
 function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-
+  const setUser = useUser((state) => state);
   const [values, updateValues] = useForm({ email: "", password: "" });
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log("values", values);
-    // setLoading(true);
-    // setError(false);
-    // const endpoint = `/customer/login`;
-    // try {
-    //   const { data } = await http.post(endpoint, values);
-    //   localStorage.setItem(
-    //     process.env.REACT_APP_JWT_KEY || "jwtPrivateKey",
-    //     (data as any)["token"]
-    //   );
-    //   //   setUser(data["user"]);
-    //   setLoading(false);
-    //   setError(false);
-    //   router.replace("/");
-    // } catch {
-    //   setLoading(false);
-    //   setError(true);
-    // }
+
+    setLoading(true);
+    setError(false);
+    const endpoint = `/login`;
+    try {
+      const { data } = await http.post(endpoint, values);
+      localStorage.setItem(
+        process.env.REACT_APP_JWT_KEY || "jwtPrivateKey",
+        (data as any)["token"]
+      );
+      setUser((data as any)["user"]);
+      setLoading(false);
+      setError(false);
+      router.replace("/");
+    } catch {
+      setLoading(false);
+      setError(true);
+    }
   };
   //   user ? (
   //     router.push("/")

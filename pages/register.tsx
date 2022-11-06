@@ -6,35 +6,42 @@ import {
 } from "@heroicons/react/24/solid";
 
 import useForm from "../hooks/useForm";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import Link from "next/link";
+import { useUser } from "../store/userStore";
 
-function Login() {
+function Register() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const setUser = useUser((state) => state.set);
+  const user = useUser((state) => state.user);
 
-  const [values, updateValues] = useForm({ email: "", password: "" });
+  const [values, updateValues] = useForm({
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+  });
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log("values", values);
-    // setLoading(true);
-    // setError(false);
-    // const endpoint = `/customer/login`;
-    // try {
-    //   const { data } = await http.post(endpoint, values);
-    //   localStorage.setItem(
-    //     process.env.REACT_APP_JWT_KEY || "jwtPrivateKey",
-    //     (data as any)["token"]
-    //   );
-    //   //   setUser(data["user"]);
-    //   setLoading(false);
-    //   setError(false);
-    //   router.replace("/");
-    // } catch {
-    //   setLoading(false);
-    //   setError(true);
-    // }
+    setLoading(true);
+    setError(false);
+    const endpoint = `/register`;
+    try {
+      const { data } = await http.post(endpoint, values);
+      localStorage.setItem(
+        process.env.REACT_APP_JWT_KEY || "jwtPrivateKey",
+        (data as any)["token"]
+      );
+      setUser((data as any)["user"]);
+      setLoading(false);
+      setError(false);
+      router.replace("/");
+    } catch {
+      setLoading(false);
+      setError(true);
+    }
   };
   //   user ? (
   //     router.push("/")
@@ -120,7 +127,9 @@ function Login() {
   //       </form>
   //     </main>
   //   );
-  return (
+  return user ? (
+    Router.push("/")
+  ) : (
     <>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
@@ -185,6 +194,22 @@ function Login() {
                   onChange={updateValues}
                 />
               </div>
+              <div>
+                <label htmlFor="confirm_password" className="sr-only">
+                  Confirm Password
+                </label>
+                <input
+                  id="password_confirmation"
+                  name="password_confirmation"
+                  type="password"
+                  autoComplete="confirm-password"
+                  required
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  placeholder="Confirm Password"
+                  value={values.password_confirmation}
+                  onChange={updateValues}
+                />
+              </div>
             </div>
 
             <div>
@@ -216,4 +241,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
