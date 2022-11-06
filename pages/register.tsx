@@ -1,5 +1,5 @@
 import http from "../services/httpService";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ExclamationCircleIcon,
   LockClosedIcon,
@@ -8,14 +8,14 @@ import {
 import useForm from "../hooks/useForm";
 import Router, { useRouter } from "next/router";
 import Link from "next/link";
-import { useUser } from "../store/userStore";
+import UserContext from "../components/userContext";
 
 function Register() {
   const router = useRouter();
+  const [initial, setInitial] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const setUser = useUser((state) => state.set);
-  const user = useUser((state) => state.user);
+  const [user, setUser] = useContext(UserContext);
 
   const [values, updateValues] = useForm({
     name: "",
@@ -127,117 +127,123 @@ function Register() {
   //       </form>
   //     </main>
   //   );
-  return user ? (
-    Router.push("/")
-  ) : (
-    <>
-      <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
-          <div>
-            <img
-              className="mx-auto h-32 w-auto"
-              src="/qa_logo.jpg"
-              alt="QA Forum"
-            />
-            <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
-              Register for an account
-            </h2>
-          </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
-            <input type="hidden" name="remember" defaultValue="true" />
-            <div className="rounded-md shadow-sm -space-y-px">
-              <div>
-                <label htmlFor="name" className="sr-only">
-                  Name
-                </label>
-                <input
-                  id="name"
-                  name="name"
-                  type="name"
-                  autoComplete="name"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Name"
-                  value={values.name}
-                  onChange={updateValues}
-                />
-              </div>
-              <div>
-                <label htmlFor="email-address" className="sr-only">
-                  Email address
-                </label>
-                <input
-                  id="email-address"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Email address"
-                  value={values.email}
-                  onChange={updateValues}
-                />
-              </div>
-              <div>
-                <label htmlFor="password" className="sr-only">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Password"
-                  value={values.password}
-                  onChange={updateValues}
-                />
-              </div>
-              <div>
-                <label htmlFor="confirm_password" className="sr-only">
-                  Confirm Password
-                </label>
-                <input
-                  id="password_confirmation"
-                  name="password_confirmation"
-                  type="password"
-                  autoComplete="confirm-password"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Confirm Password"
-                  value={values.password_confirmation}
-                  onChange={updateValues}
-                />
-              </div>
-            </div>
-
+  useEffect(() => {
+    if (user?.email) {
+      router.push("/");
+    }
+    setInitial(false);
+  }, [user]);
+  return (
+    !initial && (
+      <>
+        <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-md w-full space-y-8">
             <div>
-              <button
-                onClick={handleSubmit}
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  <LockClosedIcon
-                    className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                    aria-hidden="true"
+              <img
+                className="mx-auto h-32 w-auto"
+                src="/qa_logo.jpg"
+                alt="QA Forum"
+              />
+              <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
+                Register for an account
+              </h2>
+            </div>
+            <form className="mt-8 space-y-6" action="#" method="POST">
+              <input type="hidden" name="remember" defaultValue="true" />
+              <div className="rounded-md shadow-sm -space-y-px">
+                <div>
+                  <label htmlFor="name" className="sr-only">
+                    Name
+                  </label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="name"
+                    autoComplete="name"
+                    required
+                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    placeholder="Name"
+                    value={values.name}
+                    onChange={updateValues}
                   />
+                </div>
+                <div>
+                  <label htmlFor="email-address" className="sr-only">
+                    Email address
+                  </label>
+                  <input
+                    id="email-address"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    placeholder="Email address"
+                    value={values.email}
+                    onChange={updateValues}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="password" className="sr-only">
+                    Password
+                  </label>
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="current-password"
+                    required
+                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    placeholder="Password"
+                    value={values.password}
+                    onChange={updateValues}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="confirm_password" className="sr-only">
+                    Confirm Password
+                  </label>
+                  <input
+                    id="password_confirmation"
+                    name="password_confirmation"
+                    type="password"
+                    autoComplete="confirm-password"
+                    required
+                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    placeholder="Confirm Password"
+                    value={values.password_confirmation}
+                    onChange={updateValues}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <button
+                  onClick={handleSubmit}
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                    <LockClosedIcon
+                      className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                      aria-hidden="true"
+                    />
+                  </span>
+                  Register
+                </button>
+              </div>
+              <div className="text-center">
+                <span className="mt-4 text-black items-center font-medium">
+                  Already have an Account?{" "}
+                  <Link className="text-blue-600" href="/login">
+                    Sign in here
+                  </Link>
                 </span>
-                Register
-              </button>
-            </div>
-            <div className="text-center">
-              <span className="mt-4 text-black items-center font-medium">
-                Already have an Account?{" "}
-                <Link className="text-blue-600" href="/login">
-                  Sign in here
-                </Link>
-              </span>
-            </div>
-          </form>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-    </>
+      </>
+    )
   );
 }
 

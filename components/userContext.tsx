@@ -1,15 +1,32 @@
-import React, { useState } from "react";
+import jwtDecode from "jwt-decode";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-// Create a User context
-const UserContext = React.createContext([{} || null, () => {}]);
+import { createContext } from "react";
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+const UserContext = createContext<
+[User | null, Dispatch<SetStateAction<User | null>>]
+>([null, () => {}]);
+
+// Provider in your app
 
 export function UserProvider({ children }: any) {
-  // we need to stick state in here
-  const [user, setUser] = useState(null);
+  const userState = useState<User | null>(null);
+
+  useEffect(() => {
+    const jwt = localStorage.getItem("user");
+    if (jwt) {
+      const user: User = jwtDecode(jwt);
+      userState[1](user);
+    }
+  }, []);
   return (
-    <UserContext.Provider value={[user, setUser]}>
-      {children}
-    </UserContext.Provider>
+    <UserContext.Provider value={userState}>{children}</UserContext.Provider>
   );
 }
 
