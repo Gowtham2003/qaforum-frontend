@@ -22,17 +22,20 @@ function Login() {
     setLoading(true);
     setError(false);
     const endpoint = `/login`;
-    try {
-      const { data } = await http.post(endpoint, values);
+
+    const res = await http.post(endpoint, values);
+    if (res.ok) {
+      const data = res.data;
       localStorage.setItem(
         process.env.REACT_APP_JWT_KEY || "jwtPrivateKey",
         (data as any)["token"]
       );
       setUser((data as any)["user"]);
+
       setLoading(false);
       setError(false);
       router.replace("/");
-    } catch {
+    } else {
       setLoading(false);
       setError(true);
     }

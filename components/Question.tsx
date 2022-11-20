@@ -10,6 +10,7 @@ import {
   ChatBubbleLeftIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/solid";
+import Link from "next/link";
 import React, { Fragment } from "react";
 import { QuestionType } from "../pages";
 import { classNames } from "../utils/ui";
@@ -17,26 +18,7 @@ import { classNames } from "../utils/ui";
 function Question(question: QuestionType) {
   console.log(question.user);
   console.log(question.created_at);
-  // const question = {
-  //   id: "81614",
-  //   likes: "29",
-  //   replies: "11",
-  //   views: "2.7k",
-  //   author: {
-  //     name: "Dries Vincent",
-  //     imageUrl:
-  //       "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  //     href: "#",
-  //   },
-  //   date: "December 9 at 11:43 AM",
-  //   datetime: "2020-12-09T11:43:00",
-  //   href: "#",
-  //   title: "What would you have done differently if you ran Jurassic Park?",
-  //   body: `
-  //         <p>Jurassic Park was an incredible idea and a magnificent feat of engineering, but poor protocols and a disregard for human safety killed what could have otherwise been one of the best businesses of our generation.</p>
-  //         <p>Ultimately, I think that if you wanted to run the park successfully and keep visitors safe, the most important thing to prioritize would be&hellip;</p>
-  //       `,
-  // };
+
   return (
     <li
       key={question.id}
@@ -44,40 +26,18 @@ function Question(question: QuestionType) {
     >
       <article aria-labelledby={"question-title-" + question.id}>
         <div>
-          <div className="flex space-x-3">
-            <div className="flex-shrink-0">
-              <UserCircleIcon className="h-8 w-8 rounded-full  text-white " />
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-sm font-medium text-gray-900">
-                <a
-                  href={"/user/" + question.user_id}
-                  className="hover:underline"
-                >
-                  {question.user?.name}
-                </a>
-              </p>
-              <p className="text-sm text-gray-500">
-                <a
-                  href={"/question/" + question.id}
-                  className="hover:underline"
-                >
-                  {/* <div>{question.created_at?.getDate()}</div> */}
-                </a>
-              </p>
-            </div>
-          </div>
-          <h2
+          <Link
+            href={"/question/" + question.id}
             id={"question-title-" + question.id}
-            className="mt-4 text-base font-medium text-gray-900"
+            className="text-base font-medium text-gray-900 underline"
           >
             {question.title}
-          </h2>
+          </Link>
         </div>
-        <div
+        {/* <div
           className="mt-2 text-sm text-gray-700 space-y-4"
           dangerouslySetInnerHTML={{ __html: question.markdown }}
-        />
+        /> */}
         <div className="mt-6 flex justify-between space-x-8">
           <div className="flex space-x-6">
             <span className="inline-flex items-center text-sm">
@@ -104,6 +64,33 @@ function Question(question: QuestionType) {
                 <span className="sr-only">replies</span>
               </button>
             </span>
+          </div>
+          <div className="flex space-x-3">
+            <div className="flex-shrink-0">
+              <UserCircleIcon className="h-8 w-8 rounded-full text-black " />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-medium text-gray-900">
+                <a
+                  href={"/user/" + question.user_id}
+                  className="hover:underline"
+                >
+                  {question.user?.name}
+                </a>
+              </p>
+              <p className="text-sm text-gray-500">
+                <a
+                  href={"/question/" + question.id}
+                  className="hover:underline"
+                >
+                  <div>
+                    {new Date(
+                      Date.parse(question.created_at)
+                    ).toLocaleDateString()}
+                  </div>
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </article>

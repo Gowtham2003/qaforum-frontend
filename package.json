@@ -18,12 +18,16 @@
     "apisauce": "^2.1.6",
     "jwt-decode": "^3.1.2",
     "next": "13.0.1",
+    "prism-themes": "^1.9.0",
+    "prismjs": "^1.29.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "4.8.4",
     "zustand": "^4.1.4"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.8",
+    "@types/prismjs": "^1.26.0",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.18",
     "tailwindcss": "^3.2.1"

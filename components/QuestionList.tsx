@@ -17,7 +17,10 @@ function QuestionList({ questions }: { questions: QuestionType[] }) {
   return (
     <ul role="list" className="space-y-4">
       {questions?.map((question) => (
-        <Question {...question} />
+        <>
+          <Question {...question} />
+          <hr />
+        </>
       ))}
     </ul>
   );

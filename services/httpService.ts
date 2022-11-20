@@ -3,7 +3,7 @@ import { create } from "apisauce";
 
 // define the api
 const api = create({
-  baseURL: "http://172.1.1.107:8000/api/",
+  baseURL: process.env.NEXT_PUBLIC_API_URL+"/api/",
 });
 
 export default api;

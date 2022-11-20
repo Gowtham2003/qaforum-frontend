@@ -5,6 +5,7 @@ import {
   UserIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { Fragment, useContext } from "react";
 import { classNames } from "../utils/ui";
@@ -19,7 +20,7 @@ function Nav() {
   const [user, setUser] = useContext(UserContext);
   const router = useRouter();
   const navigation = [
-    { name: "Home", href: "#", current: router.pathname === "/" },
+    { name: "Home", href: "/", current: router.pathname === "/" },
     { name: "Questions", href: "#", current: router.pathname === "/questions" },
     { name: "Login", href: "/login", current: router.pathname === "/login" },
     {
@@ -47,7 +48,7 @@ function Nav() {
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
-                          <a
+                          <Link
                             key={item.name}
                             href={item.href}
                             className={classNames(
@@ -59,7 +60,7 @@ function Nav() {
                             aria-current={item.current ? "page" : undefined}
                           >
                             {item.name}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -89,7 +90,7 @@ function Nav() {
                                 {userNavigation.map((item) => (
                                   <Menu.Item key={item.name}>
                                     {({ active }) => (
-                                      <a
+                                      <Link
                                         href={item.href}
                                         className={classNames(
                                           active ? "bg-gray-100" : "",
@@ -97,7 +98,7 @@ function Nav() {
                                         )}
                                       >
                                         {item.name}
-                                      </a>
+                                      </Link>
                                     )}
                                   </Menu.Item>
                                 ))}

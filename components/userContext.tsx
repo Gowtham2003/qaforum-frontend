@@ -10,7 +10,7 @@ export interface User {
 }
 
 const UserContext = createContext<
-[User | null, Dispatch<SetStateAction<User | null>>]
+  [User | null, Dispatch<SetStateAction<User | null>>]
 >([null, () => {}]);
 
 // Provider in your app
@@ -19,7 +19,7 @@ export function UserProvider({ children }: any) {
   const userState = useState<User | null>(null);
 
   useEffect(() => {
-    const jwt = localStorage.getItem("user");
+    const jwt = localStorage.getItem(process.env.NEXT_PUBLIC_JWT_KEY || "");
     if (jwt) {
       const user: User = jwtDecode(jwt);
       userState[1](user);
