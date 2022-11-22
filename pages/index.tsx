@@ -1,18 +1,21 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import http from "../services/httpService";
 import QuestionList from "../components/QuestionList";
 import Link from "next/link";
-export default function IndexPage() {
-  const [questions, setQuestions] = useState<QuestionType[]>();
-
-  const loadData = async () => {
-    const { data } = await http.get("/questions");
-    setQuestions((data as QuestionResponse)?.data);
-  };
+import { GetServerSideProps } from "next";
+import UserContext from "../components/userContext";
+export default function IndexPage({ data }: { data: QuestionType[] }) {
+  const [user] = useContext(UserContext);
+  const [hydrated, setHydrated] = useState(false);
   useEffect(() => {
-    loadData();
+    // This forces a rerender, so the date is rendered
+    // the second time but not the first
+    setHydrated(true);
   }, []);
-
+  if (!hydrated) {
+    // Returns null on first render, so the client and server match
+    return null;
+  }
   return (
     <>
       <div className="min-h-full">
@@ -20,12 +23,14 @@ export default function IndexPage() {
           <header className="py-10">
             <div className="flex justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <h1 className="text-3xl font-bold text-white">Home</h1>
-              <Link
-                href="/question/create"
-                className="p-2 bg-gray-900 text-white rounded-lg"
-              >
-                + Create Question
-              </Link>
+              {user && (
+                <Link
+                  href="/question/create"
+                  className="p-2 bg-gray-900 text-white rounded-lg"
+                >
+                  + Create Question
+                </Link>
+              )}
             </div>
           </header>
         </div>
@@ -34,10 +39,12 @@ export default function IndexPage() {
           <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
             {/* Replace with your content */}
             <div className="text-white mb-8">
-              Showing {questions?.length || 0} questions
+              {data?.length
+                ? `Showing ${data?.length} questions`
+                : `There are no questions yet`}
             </div>
             <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
-              <QuestionList questions={questions ? questions : []} />
+              <QuestionList questions={data ? data : []} />
             </div>
             {/* /End replace */}
           </div>
@@ -62,7 +69,7 @@ export interface QuestionType {
   user_id: number;
   created_at: string;
   updated_at: string;
-  questions_votes_count: number;
+  comments_count: number;
   questions_votes_sum_vote: string;
   user: User;
 }
@@ -88,3 +95,13 @@ export interface QuestionResponse {
   to: number;
   total: number;
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  // Fetch data from external API
+  const { data } = await http.get(
+    process.env.NEXT_PUBLIC_API_URL + "/api/questions"
+  );
+  console.log((data as QuestionResponse)?.data);
+  // Pass data to the page via props
+  return { props: { data: (data as QuestionResponse)?.data } };
+};

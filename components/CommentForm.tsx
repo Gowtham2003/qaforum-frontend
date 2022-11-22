@@ -1,12 +1,12 @@
 import React from "react";
 import useForm from "../hooks/useForm";
 
-function AddQuestion({
+function CreateForm({
   onSubmit,
 }: {
-  onSubmit: (data: { title: string; content: string }) => {};
+  onSubmit: (data: { comment: string }) => {};
 }) {
-  const [values, onChange] = useForm({ title: "", content: "" });
+  const [values, onChange] = useForm({ comment: "" });
 
   return (
     <form
@@ -18,41 +18,20 @@ function AddQuestion({
     >
       <div className="space-y-8 divide-y divide-gray-200">
         <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-          <div className="sm:col-span-3">
-            <label
-              htmlFor="title"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Title
-            </label>
-            <div className="mt-1">
-              <input
-                type="text"
-                name="title"
-                id="title"
-                autoComplete="title"
-                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                value={values.title}
-                onChange={onChange}
-              />
-            </div>
-          </div>
           <div className="sm:col-span-6">
             <label
-              htmlFor="content"
+              htmlFor="comment"
               className="block text-sm font-medium text-gray-700"
             >
-              Description
+              Answer
             </label>
             <div className="mt-1">
               <textarea
-                id="content"
-                name="content"
+                id="comment"
+                name="comment"
                 className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
-                defaultValue={""}
-                value={values.description}
+                value={values.comment}
                 onChange={onChange}
-                rows={8}
               />
             </div>
           </div>
@@ -61,7 +40,7 @@ function AddQuestion({
               type="submit"
               className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Save
+              Post
             </button>
           </div>
         </div>
@@ -70,4 +49,4 @@ function AddQuestion({
   );
 }
 
-export default AddQuestion;
+export default CreateForm;

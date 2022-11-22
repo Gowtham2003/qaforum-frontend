@@ -19,13 +19,13 @@ export default function UserPage({ data }: { data: RootObject }) {
       <div className="min-h-full">
         <main className="py-10">
           {/* Page header */}
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8 shadow pb-8">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8 border shadow p-8 rounded-md">
             <div className="flex items-center space-x-5">
               <div className="flex-shrink-0">
                 <div className="relative">
                   <span className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-gray-500">
                     <span className="text-xl font-medium leading-none text-white">
-                      {data.name[0]}
+                      {data.name && data?.name[0]}
                     </span>
                   </span>
                   <span
@@ -36,7 +36,7 @@ export default function UserPage({ data }: { data: RootObject }) {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  {data.name}
+                  {data?.name}
                 </h1>
               </div>
             </div>
@@ -55,7 +55,7 @@ export default function UserPage({ data }: { data: RootObject }) {
                       Questions
                     </h2>
                     <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                      Showing {data.questions_count} questions
+                      Showing {data.questions_count || 0} questions
                     </p>
                   </div>
                 </div>
@@ -81,7 +81,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const res = await http.get(
     process.env.NEXT_PUBLIC_API_URL + "/api/user/" + context.query.id
   );
-
+  if (!res.ok)
+    return {
+      notFound: true,
+    };
   // Pass data to the page via props
   return { props: { data: res.data } };
 };

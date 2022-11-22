@@ -7,28 +7,34 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { classNames } from "../utils/ui";
 import UserContext from "./userContext";
 
-const userNavigation = [
-  { name: "Your Questions", href: "/user/questions" },
-  { name: "Sign out", href: "/logout" },
-];
-
 function Nav() {
   const [user, setUser] = useContext(UserContext);
+  const userNavigation = [
+    { name: "Your Profile", href: `/user/${user?.id}` },
+    { name: "Sign out", href: "/logout" },
+  ];
   const router = useRouter();
   const navigation = [
     { name: "Home", href: "/", current: router.pathname === "/" },
-    { name: "Questions", href: "#", current: router.pathname === "/questions" },
-    { name: "Login", href: "/login", current: router.pathname === "/login" },
-    {
+    // { name: "Questions", href: "#", current: router.pathname === "/questions" },
+  ];
+  !user &&
+    navigation.push({
+      name: "Login",
+      href: "/login",
+      current: router.pathname === "/login",
+    });
+  !user &&
+    navigation.push({
       name: "Register",
       href: "/register",
       current: router.pathname === "/register",
-    },
-  ];
+    });
+
   return (
     <>
       <Disclosure as="nav" className="bg-gray-800">
@@ -74,7 +80,11 @@ function Nav() {
                             <div>
                               <Menu.Button className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                                 <span className="sr-only">Open user menu</span>
-                                <UserCircleIcon className="h-8 w-8 rounded-full  text-white " />
+                                <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-600 border border-blue-600">
+                                  <span className="text-xl font-medium leading-none text-white">
+                                    {user?.name[0]}
+                                  </span>
+                                </span>
                               </Menu.Button>
                             </div>
                             <Transition
@@ -153,7 +163,11 @@ function Nav() {
                 <div className="flex items-center px-5">
                   <div className="flex-shrink-0">
                     <span className="h-8 w-8 rounded-full">
-                      <UserCircleIcon className="h-8 w-8 rounded-full  text-white " />
+                      <span className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-gray-500">
+                        <span className="text-xl font-medium leading-none text-white">
+                          {user?.name[0]}
+                        </span>
+                      </span>
                     </span>
                   </div>
                   <div className="ml-3">
