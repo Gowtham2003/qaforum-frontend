@@ -1,19 +1,11 @@
-import { Menu, Transition } from "@headlessui/react";
-import {
-  StarIcon,
-  FlagIcon,
-  EyeIcon,
-  ShareIcon,
-} from "@heroicons/react/24/outline";
 import {
   HandThumbUpIcon,
   ChatBubbleLeftIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import React, { Fragment } from "react";
+import React from "react";
 import { QuestionType } from "../pages";
-import { classNames } from "../utils/ui";
 
 function Question(question: QuestionType) {
   console.log(question.user);
