@@ -12,13 +12,13 @@ function QuestionPage({ data }: { data: RootObject }) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="mt-8 border sm:p-8">
-        <h1 className="text-3xl font-bold text-black mb-16 border-b-2 pb-8">
+        <h1 className="text-3xl font-bold text-black mb-8 border-b-2 pb-8">
           Question: {data.title}
         </h1>
-        <div className="prose sm:mx-16">
-          <div className="text-2xl font-semibold text-black underline">
+        <div className="prose p-16 sm:mx-4 bg-gray-50 sm:p-16 rounded-lg border mb-8">
+          {/* <div className="text-2xl font-semibold text-black underline">
             Description
-          </div>
+          </div> */}
           <div
             className="mt-2 text-sm text-gray-700 space-y-4 "
             dangerouslySetInnerHTML={{ __html: data.markdown }}
@@ -26,7 +26,7 @@ function QuestionPage({ data }: { data: RootObject }) {
         </div>
         <hr />
         <div>
-          <div className="text-2xl font-semibold text-black underline">
+          <div className="text-2xl font-semibold text-black underline mt-4">
             {data.comments.length} Answers
           </div>
         </div>

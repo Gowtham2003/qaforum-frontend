@@ -21,7 +21,7 @@ export default function IndexPage() {
             <div className="flex justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <h1 className="text-3xl font-bold text-white">Home</h1>
               <Link
-                href="/questions/create"
+                href="/question/create"
                 className="p-2 bg-gray-900 text-white rounded-lg"
               >
                 + Create Question
@@ -34,7 +34,7 @@ export default function IndexPage() {
           <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
             {/* Replace with your content */}
             <div className="text-white mb-8">
-              Showing {questions?.length} questions
+              Showing {questions?.length || 0} questions
             </div>
             <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
               <QuestionList questions={questions ? questions : []} />
