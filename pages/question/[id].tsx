@@ -37,9 +37,6 @@ function QuestionPage({ data }: { data: RootObject }) {
           </div>
         </div>
         <div className="prose sm:mx-8">
-          <div className="text-2xl font-semibold text-black underline">
-            Description
-          </div> */}
           <div
             className="mt-2 text-sm text-gray-700 space-y-4 "
             dangerouslySetInnerHTML={{ __html: data.markdown }}
