@@ -13,7 +13,6 @@ import {
 import Link from "next/link";
 import {} from "@heroicons/react/24/outline";
 import UserContext from "../../../components/userContext";
-import { rawListeners } from "process";
 function QuestionPage({ data }: { data: RootObject }) {
   const [user] = useContext(UserContext);
   const [votes, setVotes] = useState(data.vote_sum);

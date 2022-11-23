@@ -66,7 +66,7 @@ function Comment({ comment }: { comment: CommentType }) {
           <div className="flex space-x-6">
             <span className="flex items-center font-medium text-gray-900">
               <StarIcon className="h-5 w-5 mr-1" aria-hidden="true" />
-              Votes: {comment.vote_sum || 0}
+              Votes: {votes || 0}
             </span>
           </div>
           <div className="flex justify-center space-x-2 pb-4">
