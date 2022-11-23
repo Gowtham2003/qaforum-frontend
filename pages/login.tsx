@@ -9,11 +9,13 @@ import useForm from "../hooks/useForm";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import UserContext, { User } from "../components/userContext";
+import { classNames } from "../utils/ui";
 
 function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [user, setUser] = useContext(UserContext);
   const [initial, setInitial] = useState(true);
   const [values, updateValues] = useForm({ email: "", password: "" });
@@ -47,13 +49,6 @@ function Login() {
     setInitial(false);
   }, [user]);
 
-  //         {error && (
-  //           <div className="flex items-center justify-center bg-red-400 p-4 text-white text-center">
-  //             <ExclamationCircleIcon className="h-4 w-4 mr-2" />
-  //             Invalid Login Email / Password
-  //           </div>
-  //         )}
-  //
   return (
     !initial && (
       <>
@@ -69,6 +64,12 @@ function Login() {
                 Sign in to your account
               </h2>
             </div>
+            {error && (
+              <div className="flex items-center justify-center bg-red-400 p-4 text-white text-center rounded-lg">
+                <ExclamationCircleIcon className="h-4 w-4 mr-2" />
+                Invalid Login Email / Password
+              </div>
+            )}
             <form className="mt-8 space-y-6" action="#" method="POST">
               <input type="hidden" name="remember" defaultValue="true" />
               <div className="rounded-md shadow-sm -space-y-px">
@@ -119,7 +120,11 @@ function Login() {
               <div>
                 <button
                   onClick={handleSubmit}
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className={classNames(
+                    `group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`,
+                    loading ? "animate-pulse" : ""
+                  )}
+                  disabled={loading}
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                     <LockClosedIcon

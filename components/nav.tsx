@@ -46,8 +46,8 @@ function Nav() {
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <img
-                        className="h-8 w-8"
-                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                        className="h-8 w-8 rounded-full"
+                        src="/qa_logo.svg"
                         alt="Workflow"
                       />
                     </div>

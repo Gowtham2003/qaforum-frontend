@@ -1,10 +1,13 @@
 import React from "react";
 import useForm from "../hooks/useForm";
+import { classNames } from "../utils/ui";
 
 function AddQuestion({
   onSubmit,
+  loading,
 }: {
   onSubmit: (data: { title: string; content: string }) => {};
+  loading: boolean;
 }) {
   const [values, onChange] = useForm({ title: "", content: "" });
 
@@ -34,6 +37,7 @@ function AddQuestion({
                 className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                 value={values.title}
                 onChange={onChange}
+                required
               />
             </div>
           </div>
@@ -53,13 +57,17 @@ function AddQuestion({
                 value={values.description}
                 onChange={onChange}
                 rows={8}
+                required
               />
             </div>
           </div>
           <div className="pt-5">
             <button
               type="submit"
-              className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className={classNames(
+                "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+                loading ? "animate-pulse" : ""
+              )}
             >
               Save
             </button>

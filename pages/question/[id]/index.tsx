@@ -13,12 +13,13 @@ import {
 import Link from "next/link";
 import {} from "@heroicons/react/24/outline";
 import UserContext from "../../../components/userContext";
+import { sortByKey } from "../../../utils/ui";
 function QuestionPage({ data }: { data: RootObject }) {
   const [user] = useContext(UserContext);
   const [votes, setVotes] = useState(data.vote_sum);
-  // useEffect(() => {
-  //   Prism.highlightAll();
-  // }, []);
+  useEffect(() => {
+    Prism.highlightAll();
+  }, []);
   const [hydrated, setHydrated] = useState(false);
   let jwt: string | null;
   useEffect(() => {
@@ -78,7 +79,7 @@ function QuestionPage({ data }: { data: RootObject }) {
           <div className="flex space-x-6 items-center">
             <span className="flex items-center font-medium text-gray-900">
               <StarIcon className="h-5 w-5 mr-1" aria-hidden="true" />
-              Votes: {votes || 0}
+              Votes: {parseInt(votes) || 0}
             </span>
             <span className="flex items-center font-medium text-gray-900">
               <ChatBubbleLeftIcon className="h-5 w-5 mr-1" aria-hidden="true" />{" "}
@@ -99,7 +100,7 @@ function QuestionPage({ data }: { data: RootObject }) {
               className="flex items-center font-medium text-gray-900"
             >
               <ChevronUpIcon className="h-5 w-5 mr-1" aria-hidden="true" />
-              Upvotes
+              Upvote
             </button>
             <button
               onClick={() => handleVote("downvote")}
@@ -118,12 +119,14 @@ function QuestionPage({ data }: { data: RootObject }) {
             <div className="text-lg font-semibold text-black ">
               {data?.comments?.length} Answers
             </div>
-            <Link
-              href={`/question/${data.id}/comment`}
-              className="bg-gray-900 text-white rounded-lg p-2"
-            >
-              + Answer Question
-            </Link>
+            {user && (
+              <Link
+                href={`/question/${data.id}/comment`}
+                className="bg-gray-900 text-white rounded-lg p-2"
+              >
+                + Answer Question
+              </Link>
+            )}
           </div>
           {data?.comments?.map((comment) => (
             <Comment key={comment.id} comment={comment} />
@@ -141,7 +144,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const res = await http.get(
     process.env.NEXT_PUBLIC_API_URL + "/api/question/" + context.query.id
   );
-
+  if (!res.ok)
+    if (!res.ok)
+      return {
+        notFound: true,
+      };
+  const data = res.data as RootObject;
+  data.comments = sortByKey(data.comments, "vote_sum");
   // Pass data to the page via props
   return { props: { data: res.data } };
 };

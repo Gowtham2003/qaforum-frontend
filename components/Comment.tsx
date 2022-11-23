@@ -49,7 +49,7 @@ function Comment({ comment }: { comment: CommentType }) {
               className="flex items-center font-medium text-gray-900"
             >
               <ChevronUpIcon className="h-5 w-5 mr-1" aria-hidden="true" />
-              Upvotes
+              Upvote
             </button>
             <button
               onClick={() => handleVote("downvote")}
@@ -66,7 +66,7 @@ function Comment({ comment }: { comment: CommentType }) {
           <div className="flex space-x-6">
             <span className="flex items-center font-medium text-gray-900">
               <StarIcon className="h-5 w-5 mr-1" aria-hidden="true" />
-              Votes: {votes || 0}
+              Votes: {parseInt(votes) || 0}
             </span>
           </div>
           <div className="flex justify-center space-x-2 pb-4">

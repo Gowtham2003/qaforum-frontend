@@ -1,8 +1,9 @@
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AddQuestion from "../../components/AddQuestion";
 import http from "../../services/httpService";
 function Create() {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   let jwt: string | null;
   useEffect(() => {
@@ -16,9 +17,14 @@ function Create() {
     title: string;
     content: string;
   }) => {
+    setLoading(true);
     http.setHeader("Authorization", `Bearer ${jwt}`);
     const res = await http.post("/question", question);
-    if (res.ok) router.push("/question/" + (res.data as any).id);
+    if (res.ok) {
+      router.push("/question/" + (res.data as any).id);
+    } else {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -30,7 +36,7 @@ function Create() {
                 Create Question
               </h2>
             </div>
-            <AddQuestion onSubmit={createQuestion} />
+            <AddQuestion onSubmit={createQuestion} loading={loading} />
           </div>
         </div>
       </div>

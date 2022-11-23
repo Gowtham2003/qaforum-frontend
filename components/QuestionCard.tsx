@@ -44,7 +44,7 @@ function Question(question: QuestionType) {
               >
                 <HandThumbUpIcon className="h-5 w-5" aria-hidden="true" />
                 <span className="font-medium text-gray-900">
-                  Votes: {question.questions_votes_sum_vote || 0}
+                  Votes: {parseInt(question.questions_votes_sum_vote) || 0}
                 </span>
                 <span className="sr-only">votes</span>
               </button>

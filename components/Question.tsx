@@ -22,7 +22,7 @@ function Question(question: QuestionType) {
           <Link
             href={"/question/" + question.id}
             id={"question-title-" + question.id}
-            className="text-base font-medium text-gray-900 underline"
+            className="text-base font-medium text-gray-900"
           >
             {question.title}
           </Link>
@@ -35,7 +35,7 @@ function Question(question: QuestionType) {
           <div className="flex space-x-6 items-center">
             <span className="flex items-center font-medium text-gray-900">
               <StarIcon className="h-5 w-5 mr-1" aria-hidden="true" />
-              Votes: {question.questions_votes_sum_vote || 0}
+              Votes: {parseInt(question.questions_votes_sum_vote) || 0}
             </span>
             <span className="flex items-center font-medium text-gray-900">
               <ChatBubbleLeftIcon className="h-5 w-5 mr-1" aria-hidden="true" />{" "}
