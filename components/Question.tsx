@@ -31,7 +31,7 @@ function Question(question: QuestionType) {
           className="mt-2 text-sm text-gray-700 space-y-4"
           dangerouslySetInnerHTML={{ __html: question.markdown }}
         /> */}
-        <div className="mt-6 flex justify-between space-x-8">
+        <div className="mt-6 flex-row sm:flex sm:justify-between sm:space-x-8">
           <div className="flex space-x-6 items-center">
             <span className="flex items-center font-medium text-gray-900">
               <StarIcon className="h-5 w-5 mr-1" aria-hidden="true" />
@@ -42,7 +42,7 @@ function Question(question: QuestionType) {
               Replies: {question.comments_count || 0}
             </span>
           </div>
-          <div className="flex space-x-3">
+          <div className=" mt-4 sm:mt-0 flex space-x-3">
             <div className="flex-shrink-0">
               <span className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-gray-500">
                 <span className="text-xl font-medium leading-none text-white">

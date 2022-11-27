@@ -101,6 +101,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { data } = await http.get(
     process.env.NEXT_PUBLIC_API_URL + "/api/questions"
   );
+  console.log(process.env.NEXT_PUBLIC_API_URL + "/api/questions");
   console.log((data as QuestionResponse)?.data);
   // Pass data to the page via props
   return { props: { data: (data as QuestionResponse)?.data } };

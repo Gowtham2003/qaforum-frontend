@@ -159,39 +159,41 @@ function Nav() {
                   </Disclosure.Button>
                 ))}
               </div>
-              <div className="pt-4 pb-3 border-t border-gray-700">
-                <div className="flex items-center px-5">
-                  <div className="flex-shrink-0">
-                    <span className="h-8 w-8 rounded-full">
-                      <span className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-gray-500">
-                        <span className="text-xl font-medium leading-none text-white">
-                          {user?.name[0]}
+              {user && (
+                <div className="pt-4 pb-3 border-t border-gray-700">
+                  <div className="flex items-center px-5">
+                    <div className="flex-shrink-0">
+                      <span className="h-8 w-8 rounded-full">
+                        <span className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-gray-500">
+                          <span className="text-xl font-medium leading-none text-white">
+                            {user?.name[0]}
+                          </span>
                         </span>
                       </span>
-                    </span>
+                    </div>
+                    <div className="ml-3">
+                      <div className="text-base font-medium leading-none text-white">
+                        {user?.name}
+                      </div>
+                      <div className="text-sm font-medium leading-none text-gray-400">
+                        {user?.email}
+                      </div>
+                    </div>
                   </div>
-                  <div className="ml-3">
-                    <div className="text-base font-medium leading-none text-white">
-                      {user?.name}
-                    </div>
-                    <div className="text-sm font-medium leading-none text-gray-400">
-                      {user?.email}
-                    </div>
+                  <div className="mt-3 px-2 space-y-1">
+                    {userNavigation.map((item) => (
+                      <Disclosure.Button
+                        key={item.name}
+                        as="a"
+                        href={item.href}
+                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                      >
+                        {item.name}
+                      </Disclosure.Button>
+                    ))}
                   </div>
                 </div>
-                <div className="mt-3 px-2 space-y-1">
-                  {userNavigation.map((item) => (
-                    <Disclosure.Button
-                      key={item.name}
-                      as="a"
-                      href={item.href}
-                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-                    >
-                      {item.name}
-                    </Disclosure.Button>
-                  ))}
-                </div>
-              </div>
+              )}
             </Disclosure.Panel>
           </>
         )}
